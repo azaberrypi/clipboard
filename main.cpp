@@ -17,12 +17,12 @@ int WINAPI WinMain(
     /*https://docs.microsoft.com/ja-jp/windows/win32/api/winuser/nf-winuser-getclipboarddata*/
     HANDLE a = GetClipboardData(CF_TEXT);
     if (a != NULL) {
-        LPTSTR lptstr;
-        lptstr = (LPTSTR) GlobalLock(a);    // nanikore?
-        if (lptstr != NULL) {
+        LPTSTR lptstr_copy;
+        lptstr_copy = (LPTSTR) GlobalLock(a);    // nanikore?
+        if (lptstr_copy != NULL) {
             /*ここで処理*/
-            std::cout << lptstr << std::endl;    // debug
-            int len = lstrlen(lptstr);
+            std::cout << lptstr_copy << std::endl;    // debug
+            int len = lstrlen(lptstr_copy);
             std::cout << len << std::endl;
             GlobalUnlock(a);
             WCHAR text[32];
