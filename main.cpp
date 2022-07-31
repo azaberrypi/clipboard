@@ -1,4 +1,5 @@
 #define _UNICODE
+#define UNICODE
 
 #include <windows.h>
 #include <iostream>
@@ -15,18 +16,18 @@ int WINAPI WinMain(
     }
 
     /*https://docs.microsoft.com/ja-jp/windows/win32/api/winuser/nf-winuser-getclipboarddata*/
-    HANDLE a = GetClipboardData(CF_TEXT);
+    HANDLE a = GetClipboardData(CF_UNICODETEXT);
     if (a != NULL) {
         LPTSTR lptstr_copy;
-        lptstr_copy = (LPTSTR) GlobalLock(a);    // nanikore?
+        lptstr_copy = (LPTSTR) GlobalLock(a);    // メモリブロックを確保し、最初の1Byteへのポインタを取得
         if (lptstr_copy != NULL) {
-            /*ここで処理*/
-            std::cout << lptstr_copy << std::endl;    // debug
-            int len = lstrlen(lptstr_copy);
+            /* process here */
+            int len = lstrlen(lptstr_copy);     // the length of the string, in characters
             std::cout << len << std::endl;
+            // std::cout << lstrlen(L"こんにちは abc");  // debug
             GlobalUnlock(a);
             WCHAR text[32];
-            wsprintf(text, L"%d", len);
+            wsprintf(text, L"%d", len); // ? todo:
             MessageBox(NULL, text, L"文字列の長さ", MB_OK|MB_ICONINFORMATION);
         }
     } else {
